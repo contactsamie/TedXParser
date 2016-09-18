@@ -156,7 +156,7 @@ Thanks.
                 System.IO.File.WriteAllText(fileText, allList[i ].Item2);
                 var toTime = i < allList.Count-1 ?  allList[i+1].Item1: TimeSpan.FromMilliseconds(0);
                 var  fromTime= allList[i].Item1;
-                TedXParserUtils.TrimWavFile(file,fname2, fromTime, toTime);
+                TedXParserUtils.TrimWavFile(file,fname2, fromTime, toTime.Add(TimeSpan.FromSeconds(3)));
              
             }
            

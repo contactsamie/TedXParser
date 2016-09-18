@@ -214,11 +214,11 @@ namespace TedXParserLib
             {
                 var timeTmp = m.Groups[1].Value.Replace(":", "");
                 var time = TimeSpan.FromSeconds(Convert.ToDouble(timeTmp));
-                var text = m.Groups[2].Value;
                 times.Add(time);
                 return "|";
             });
-            var parts = txt.Trim().TrimStart('|').Split('|');
+            var parts = txt.Trim().TrimStart('|').Split('|').ToList();
+            
             allList = parts.Select((t, i) => new Tuple<TimeSpan, string>(times[i], t)).ToList();
          
             return allList;
