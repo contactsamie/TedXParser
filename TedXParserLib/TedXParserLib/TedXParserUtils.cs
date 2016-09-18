@@ -210,10 +210,10 @@ namespace TedXParserLib
         {
             List<Tuple<TimeSpan, string>> allList = new List<Tuple<TimeSpan, string>>();
             var times = new List<TimeSpan>();
-            txt = new Regex(@"(\d+?:\d+)(.*)", RegexOptions.Compiled | RegexOptions.IgnoreCase).Replace(txt, m =>
+            txt = new Regex(@"(\d+?:\d+)(.*)").Replace(txt, m =>
             {
-                var timeTmp = m.Groups[1].Value.Replace(":", "");
-                var time = TimeSpan.FromSeconds(Convert.ToDouble(timeTmp));
+                var timeTmp = m.Groups[1].Value.Replace(":", ".");
+                var time = TimeSpan.FromMinutes(Convert.ToDouble(timeTmp));
                 times.Add(time);
                 return "|";
             });

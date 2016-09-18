@@ -40,7 +40,12 @@ namespace TedXParser.Tests
             Recorder?.Play(file);
             Task.Delay(TimeSpan.FromSeconds(10)).Wait();
         }
-       
+
+        [TestMethod]
+        public void mp3towav()
+        {
+            TedXParserUtils.Mp3ToWave(@"C:\aud_prog\sample_orig.mp3", @"C:\aud_prog\sample_orig.wav");
+        }
 
         [TestMethod]
         public void split_by_txt()
@@ -156,7 +161,7 @@ Thanks.
                 System.IO.File.WriteAllText(fileText, allList[i ].Item2);
                 var toTime = i < allList.Count-1 ?  allList[i+1].Item1: TimeSpan.FromMilliseconds(0);
                 var  fromTime= allList[i].Item1;
-                TedXParserUtils.TrimWavFile(file,fname2, fromTime, toTime.Add(TimeSpan.FromSeconds(3)));
+                TedXParserUtils.TrimWavFile(file,fname2, fromTime.Add(TimeSpan.FromSeconds(7.5)), toTime.Add(TimeSpan.FromSeconds(9)));
              
             }
            
