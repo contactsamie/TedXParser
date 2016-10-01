@@ -153,15 +153,16 @@ Thanks.
             List<Tuple<TimeSpan, string>> allList= TedXParserUtils. ParseTranscript(txt);
 
             var ttt = @"C:\aud_prog\sample";
-            TedXParserUtils.TrimWavFile(file, @"C:\aud_prog\sample.wav", null);
+            TedXParserUtils.WaveToMp3( file, @"C:\aud_prog\sample.mp3");
+           // TedXParserUtils.TrimWavFile(file, @"C:\aud_prog\sample.wav", null);
             for (var i = 0; i < allList.Count; i++)
             {
-                var fname2 = ttt + i + ".wav";
+                var fname2 = ttt + i + ".mp3";
                 var fileText= ttt + i + ".txt";
                 System.IO.File.WriteAllText(fileText, allList[i ].Item2);
                 var toTime = i < allList.Count-1 ?  allList[i+1].Item1: TimeSpan.FromMilliseconds(0);
                 var  fromTime= allList[i].Item1;
-                TedXParserUtils.TrimWavFile(file,fname2, fromTime.Add(TimeSpan.FromSeconds(7.5)), toTime.Add(TimeSpan.FromSeconds(9)));
+                TedXParserUtils.TrimMp3(@"C:\aud_prog\sample.mp3", fname2, fromTime.Add(TimeSpan.FromSeconds(7.5)), toTime.Add(TimeSpan.FromSeconds(9)));
              
             }
            

@@ -87,7 +87,38 @@ namespace TedXParserLib
         {
             _outputter.Stop();
         }
+        public static void WaveToMp3(string waveFileName, string mp3FileName, int bitRate = 128)
+        {
+            using (var reader = new NAudio.Wave.WaveFileReader(waveFileName))
+            using (var writer = new LameMP3FileWriter(mp3FileName, reader.WaveFormat, bitRate))
+                reader.CopyTo(writer);
+        }
+        public static  void TrimMp3(string inputPath, string outputPath, TimeSpan? begin, TimeSpan? end)
+        {
+            try
+            {
+                if (begin.HasValue && end.HasValue && begin > end)
+                    throw new ArgumentOutOfRangeException("end", "end should be greater than begin");
 
+                using (var reader = new Mp3FileReader(inputPath))
+                using (var writer = File.Create(outputPath))
+                {
+                    Mp3Frame frame;
+                    while ((frame = reader.ReadNextFrame()) != null)
+                        if (reader.CurrentTime >= begin || !begin.HasValue)
+                        {
+                            if (reader.CurrentTime <= end || !end.HasValue)
+                                writer.Write(frame.RawData, 0, frame.RawData.Length);
+                            else break;
+                        }
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
         public static void TrimWavFile(string inPath, string outPath, TimeSpan cutFromStart, TimeSpan cutFromEnd)
         {
 
@@ -175,13 +206,7 @@ namespace TedXParserLib
         }
 
        
-
-        public static void WaveToMp3(string waveFileName, string mp3FileName, int bitRate = 128)
-        {
-            using (var reader = new NAudio.Wave.WaveFileReader(waveFileName))
-            using (var writer = new LameMP3FileWriter(mp3FileName, reader.WaveFormat, bitRate))
-                reader.CopyTo(writer);
-        }
+        
         public static void Mp3ToWave(string mp3FileName, string waveFileName)
         {
             using (var reader = new NAudio.Wave.Mp3FileReader(mp3FileName))
